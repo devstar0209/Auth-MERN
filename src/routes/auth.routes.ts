@@ -1,6 +1,4 @@
-import express, { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import express from 'express';
 import { loginUser, registerUser } from '../controllers/auth.controller';
 
 const router = express.Router();

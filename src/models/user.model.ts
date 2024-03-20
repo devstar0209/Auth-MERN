@@ -6,14 +6,22 @@ export interface UserInterface extends Document {
   email: string;
   phone: string;
   password: string;
+  created_at: Date;
+  updated_at: Date;
 }
 
 const UserSchema: Schema = new Schema({
   name: { type: String, required: true },
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   phone: { type: String, required: true },
   password: { type: String, required: true },
-  date: { type: String, required: true, default: moment().format('YYYY-MM-DD HH::mm::ss') },
+  created_at: { type: Date, default: moment.utc().toDate() },
+  updated_at: { type: Date, default: moment.utc().toDate() },
+});
+
+UserSchema.pre<UserInterface>('save', function (next) {
+  this.updated_at = moment.utc().toDate();
+  next();
 });
 
 export default mongoose.model<UserInterface>('User', UserSchema);
